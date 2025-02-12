@@ -5,6 +5,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 #========== IMPORTING THE DATASET ==========#
 dataset = pd.read_csv('Data.csv')
@@ -24,9 +26,10 @@ X = np.array(ct.fit_transform(X))
 le = LabelEncoder()
 y = le.fit_transform(y)
 
+#===== SPLITTING THE DATASET INTO THE TRAINING SET AND TEST TEST =====#
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 
-
-
-#plt.scatter(dataset['Age'], dataset['Salary'])
-#plt.show()
-
+#========== FEATURE SCALING ==========#
+sc = StandardScaler()
+X_train[:, 3:] = sc.fit_transform(X_train[:, 3:])
+X_test[:, 3:] = sc.fit_transform(X_test[:, 3:])
